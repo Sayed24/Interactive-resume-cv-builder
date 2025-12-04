@@ -1,1 +1,112 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Interactive Resume / CV Builder — Sayedrahim Sadat</title>
 
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+
+  <!-- Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" integrity="sha512-..." crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+  <link rel="stylesheet" href="styles.css" />
+
+  <meta name="description" content="Interactive Resume / CV Builder — add sections, change themes, auto-save, and print to PDF. Made by Sayedrahim Sadat." />
+</head>
+<body>
+  <header class="topbar">
+    <div class="brand">
+      <h1 contenteditable="false">Interactive Resume Builder</h1>
+      <div class="subtitle">Create a polished CV for interviews — dynamic, responsive, exportable</div>
+    </div>
+
+    <div class="controls">
+      <div class="control-group">
+        <label for="theme-select">Theme</label>
+        <select id="theme-select" aria-label="Theme select">
+          <option value="default">Default</option>
+          <option value="dark">Dark</option>
+          <option value="blue">Blue</option>
+          <option value="green">Green</option>
+        </select>
+      </div>
+
+      <button id="add-section-btn" class="btn primary"><i class="fa fa-plus"></i> Add Section</button>
+      <button id="export-json" class="btn"><i class="fa fa-file-export"></i> Export</button>
+      <input type="file" id="import-json" accept="application/json" style="display:none" />
+      <button id="import-json-btn" class="btn"><i class="fa fa-file-import"></i> Import</button>
+      <button id="print-btn" class="btn success"><i class="fa fa-print"></i> Print / Save as PDF</button>
+      <button id="reset-btn" class="btn danger" title="Clear local draft"><i class="fa fa-trash"></i> Reset</button>
+    </div>
+  </header>
+
+  <main class="layout">
+    <section class="editor" aria-label="Resume editor">
+      <div id="editor-instructions" class="editor-header">
+        <strong>Editor</strong>
+        <small>Click a section title to edit it. Drag handles to reorder sections. Changes auto-save.</small>
+      </div>
+
+      <div id="sections-list" class="sections-list" aria-live="polite"></div>
+
+      <div class="add-sample">
+        <button id="add-sample-data" class="btn outline">Add Sample Resume</button>
+      </div>
+    </section>
+
+    <aside class="preview" aria-label="Resume preview">
+      <div class="preview-inner" id="preview-root">
+        <!-- Rendered resume preview -->
+      </div>
+
+      <div class="preview-footer">
+        <small>Made by <strong>Sayedrahim Sadat</strong></small>
+      </div>
+    </aside>
+  </main>
+
+  <!-- Section edit modal (simple inline editing panel) -->
+  <div id="modal" class="modal hidden" role="dialog" aria-modal="true" aria-labelledby="modal-title">
+    <div class="modal-panel">
+      <header class="modal-header">
+        <h3 id="modal-title">Edit Section</h3>
+        <button id="modal-close" class="btn-icon" aria-label="Close"><i class="fa fa-times"></i></button>
+      </header>
+
+      <div class="modal-body">
+        <label>Section Title</label>
+        <input id="modal-title-input" type="text" />
+
+        <label>Content (HTML allowed)</label>
+        <textarea id="modal-content-input" rows="8"></textarea>
+
+        <div class="modal-actions">
+          <button id="modal-save" class="btn primary">Save</button>
+          <button id="modal-cancel" class="btn">Cancel</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <template id="section-template">
+    <div class="section-item" draggable="true">
+      <div class="drag-handle" title="Drag to reorder"><i class="fa fa-grip-vertical"></i></div>
+
+      <div class="section-meta">
+        <h4 class="section-title"></h4>
+        <div class="section-actions">
+          <button class="btn small edit"><i class="fa fa-pen"></i></button>
+          <button class="btn small duplicate"><i class="fa fa-clone"></i></button>
+          <button class="btn small remove danger"><i class="fa fa-trash"></i></button>
+        </div>
+      </div>
+
+      <div class="section-body" aria-hidden="true"></div>
+    </div>
+  </template>
+
+  <script src="script.js"></script>
+</body>
+</html>
